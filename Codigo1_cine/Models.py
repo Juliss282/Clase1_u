@@ -48,10 +48,13 @@ class Usuario(persona):
         self.historialReserva = []
 
     def crearReserva(self, reserva_obj):
-        self.historialReserva.append(reserva_obj)
-        # suma putnos por compra
-        self.puntosFidelidad += 10 
-        print(f"Reserva #{reserva_obj.idReserva} creada. ¡Has ganado puntos!")
+        #revisar asiento ocupado
+        if reserva_obj.funcion.reservarAsientos(reserva_obj.asientos):
+            self.historialReserva.append(reserva_obj)
+            self.puntosFidelidad += 10 
+            print(f"Reserva #{reserva_obj.idReserva} creada exitosamente.")
+        else:
+            print(f"Error: No se pudo crear la reserva #{reserva_obj.idReserva} porque los asientos están ocupados.")
 
     def consultarPromociones(self, lista_promociones):
         print(f"--- Promociones para {self.nombre} ---")
@@ -84,15 +87,14 @@ class empleado(persona):
             print("No tiene permisos")
 
     def agregarPelicula(self, catalogo_peliculas, nueva_peli):
-        if self.rol == "Rol.ADMIN":
+        if self.rol == Rol.ADMIN:
             catalogo_peliculas.append(nueva_peli)
             print(f"Pelicula '{nueva_peli.titulo}'")
         else:
             print("Error: Solo los administradores pueden agregar películas.")
 
     def agregarFuncion(self, cartelera, nueva_funcion):
-        
-        if self.rol == "Rol.ADMIN":
+        if self.rol == Rol.ADMIN:
             cartelera.append(nueva_funcion)
             print(f"La función con ID {nueva_funcion.idFuncion} ha sido programada")
         else:
@@ -100,7 +102,7 @@ class empleado(persona):
 
     def agregarPromocion(self, lista_promos, nueva_promo):
         
-        if self.rol == "Rol.ADMIN":
+        if self.rol == Rol.ADMIN:
             lista_promos.append(nueva_promo)
             print(f"Promoción '{nueva_promo.codigo}' activada.")
         else:
@@ -168,10 +170,10 @@ class sala(espacio):
 
 
 class zonaComida(espacio):
-    def __init__(self, idEspacio, nombreEspacio, ubicacion):
+    def __init__(self, idEspacio, nombreEspacio, ubicacion, productos, stock):
         super().__init__(idEspacio, nombreEspacio, ubicacion)
-        self.listaProductos = ["Palomitas", "Refresco", "Nachos"]
-        self.stockActual = {"Palomitas": 50, "Refresco": 100, "Nachos": 30}
+        self.listaProductos = productos
+        self.stockActual = stock
 
     def venderProducto(self):
         print("\n--- Menú de ventas ---")
@@ -331,4 +333,6 @@ class funcion():
         self.asientosOcupados.extend(listaAsientos)
         print(f"Asientos {listaAsientos} reservados")
         return True
+    
+
     
