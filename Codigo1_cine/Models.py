@@ -10,7 +10,9 @@ class TipoSala(Enum):
     IMAX = "IMAX"
 
 class persona():
-
+        #nombre=input("Ingrese su nombre actualizado:   ")
+        #self.nombre=nombre
+        #self.nombre = nombre if nombre else input("Ingrese su nombre actualizado: ")
     def __init__(self,idPersona, nombre, email, telefono, contraseña):
         self.idPersona=idPersona
         self.nombre=nombre
@@ -21,7 +23,7 @@ class persona():
     
     def login(self, idPersonaIngresado, contraseñaIngresada):
         if idPersonaIngresado == self.idPersona and contraseñaIngresada == self.contraseña:
-            self.sesion_activa = True
+            self.sesionActiva = True
             print(f"Bienvenido {self.nombre}")
             return True
         return False
