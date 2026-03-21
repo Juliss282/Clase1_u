@@ -137,6 +137,9 @@ class Bibliotecario(Persona):
         else:
             print("El libro no está disponible en la sucursal de origen.")
 
+    def mostrarDetalle(self):
+        print (f"El Bibliotecario {self.idPersona}, de nombre  {self.nombre}, cuyo email es: {self.email}")
+
 class Penalizacion:
     def __init__(self, usuario, monto=0, motivo=""):
         self.usuario = usuario
